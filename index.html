@@ -715,7 +715,9 @@ function showAdminModal() {
     showToast('Только владелец может управлять доступом');
     return;
   }
-  document.getElementById('admin-project-id').textContent = currentProjectId || currentUser.uid;
+  // Use currentUser.uid to ensure exact case (Firebase UID)
+  const exactUid = currentUser ? currentUser.uid : '';
+  document.getElementById('admin-project-id').textContent = exactUid;
   loadMembersList();
   document.getElementById('modal-admin').classList.add('active');
 }
@@ -798,7 +800,7 @@ function removeMember(memberId) {
 }
 
 function copyProjectId() {
-  const id = currentProjectId || currentUser.uid;
+  const id = currentUser ? currentUser.uid : '';
   navigator.clipboard.writeText(id).then(() => showToast('Код скопирован!'));
 }
 
