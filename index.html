@@ -179,9 +179,7 @@
       <button class="auth-btn auth-btn-primary" onclick="login()">Войти</button>
       <div class="auth-divider">или</div>
       <button class="auth-btn auth-btn-secondary" onclick="showRegister()">Создать аккаунт</button>
-      <div style="text-align:center;margin-top:8px">
-        <a onclick="showJoin()" style="color:var(--accent);cursor:pointer;font-size:14px;font-weight:500">Присоединиться к проекту →</a>
-      </div>
+      
     </div>
 
     <div class="auth-form" id="auth-form-register" style="display:none">
@@ -192,15 +190,14 @@
       <button class="auth-btn auth-btn-primary" onclick="register()">Зарегистрироваться</button>
       <div class="auth-divider">или</div>
       <button class="auth-btn auth-btn-secondary" onclick="showLogin()">Уже есть аккаунт</button>
-      <div style="text-align:center;margin-top:8px">
-        <a onclick="showJoin()" style="color:var(--accent);cursor:pointer;font-size:14px;font-weight:500">Присоединиться к проекту →</a>
-      </div>
+      
     </div>
 
     <div class="auth-form" id="auth-form-join" style="display:none">
-      <div style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Введите код проекта, который вам дал владелец.</div>
-      <input type="text" class="auth-input" id="join-code" placeholder="Код проекта">
-      <button class="auth-btn auth-btn-primary" onclick="joinProject()">Присоединиться</button>
+      <div style="font-size:14px;color:var(--text-secondary);margin-bottom:12px">Введите email, который вам дал владелец, и пароль.</div>
+      <input type="email" class="auth-input" id="join-email" placeholder="Email">
+      <input type="password" class="auth-input" id="join-password" placeholder="Пароль">
+      <button class="auth-btn auth-btn-primary" onclick="employeeLogin()">Войти</button>
       <div class="auth-divider">или</div>
       <button class="auth-btn auth-btn-secondary" onclick="showLogin()">Назад ко входу</button>
     </div>
@@ -356,23 +353,18 @@
   <div class="modal">
     <div class="modal-title">👥 Управление доступом</div>
     <div class="modal-section">
-      <div class="modal-label">Код вашего проекта</div>
-      <div class="code-box"><span id="admin-project-id">—</span><button class="btn btn-sm" onclick="copyProjectId()">📋 Копировать</button></div>
-      <div class="modal-hint">Отправьте этот код человеку, которому хотите дать доступ.</div>
-    </div>
-    <div class="divider"></div>
-    <div class="modal-section">
-      <div class="modal-label">Добавить пользователя</div>
+      <div class="modal-label">Добавить сотрудника</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input type="email" id="admin-add-email" placeholder="Email пользователя" style="flex:1;min-width:200px">
+        <input type="email" id="admin-add-email" placeholder="Email сотрудника" style="flex:1;min-width:200px">
         <select id="admin-add-role" style="width:140px"><option value="editor">Редактор</option><option value="viewer">Только просмотр</option></select>
         <button class="btn btn-primary" onclick="addMember()">Добавить</button>
       </div>
+      <div class="modal-hint">Сотрудник войдёт на сайт, введёт этот email и пароль.</div>
       <div class="msg" id="admin-add-msg"></div>
     </div>
     <div class="divider"></div>
     <div class="modal-section">
-      <div class="modal-label">Пользователи с доступом</div>
+      <div class="modal-label">Сотрудники с доступом</div>
       <div id="admin-members-list"></div>
     </div>
     <div class="modal-actions"><button class="btn" onclick="closeModal('modal-admin')">Закрыть</button></div>
@@ -469,7 +461,7 @@ function showJoin() {
   document.getElementById('auth-form-login').style.display = 'none';
   document.getElementById('auth-form-register').style.display = 'none';
   document.getElementById('auth-form-join').style.display = 'flex';
-  document.getElementById('auth-subtitle').textContent = 'Присоединиться к проекту';
+  document.getElementById('auth-subtitle').textContent = 'Вход для сотрудника';
   hideAuthMessages();
 }
 
@@ -715,9 +707,6 @@ function showAdminModal() {
     showToast('Только владелец может управлять доступом');
     return;
   }
-  // Use currentUser.uid to ensure exact case (Firebase UID)
-  const exactUid = currentUser ? currentUser.uid : '';
-  document.getElementById('admin-project-id').textContent = exactUid;
   loadMembersList();
   document.getElementById('modal-admin').classList.add('active');
 }
@@ -800,8 +789,7 @@ function removeMember(memberId) {
 }
 
 function copyProjectId() {
-  const id = currentUser ? currentUser.uid : '';
-  navigator.clipboard.writeText(id).then(() => showToast('Код скопирован!'));
+  // No longer needed
 }
 
 // ==================== UTILITY ====================
