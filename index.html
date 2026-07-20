@@ -359,12 +359,13 @@
     <div class="modal-title">👥 Управление доступом</div>
     <div class="modal-section">
       <div class="modal-label">Добавить сотрудника</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
         <input type="email" id="admin-add-email" placeholder="Email сотрудника" style="flex:1;min-width:200px">
+        <input type="text" id="admin-add-password" placeholder="Пароль" style="width:140px" value="123456">
         <select id="admin-add-role" style="width:140px"><option value="editor">Редактор</option><option value="viewer">Только просмотр</option></select>
         <button class="btn btn-primary" onclick="addMember()">Добавить</button>
       </div>
-      <div class="modal-hint">Сотрудник войдёт на сайт, введёт этот email и пароль.</div>
+      <div class="modal-hint">Запомните пароль — передайте сотруднику вместе с email.</div>
       <div class="msg" id="admin-add-msg"></div>
     </div>
     <div class="divider"></div>
